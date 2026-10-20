@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Wagooon!</title>
+  <style>
+    /* Wagooon! web sürümü: telefonda tam ekran, bilgisayarda telefon oranında ortalanmış oyun alanı. */
+    html, body { margin: 0; height: 100%; background: #07080f; overflow: hidden; }
+    body { display: flex; align-items: center; justify-content: center; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    #stage { position: relative; height: 100%; height: 100dvh; aspect-ratio: 390 / 844; max-width: 100vw; }
+    #unity-canvas { display: block; width: 100%; height: 100%; background: #07080f; touch-action: none; outline: none; }
+    body.mobile #stage { width: 100vw; height: 100%; height: 100dvh; aspect-ratio: auto; }
+    #loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: #07080f; transition: opacity .45s ease; }
+    #loading img { width: min(78%, 360px); height: auto;
+      -webkit-mask-image: radial-gradient(circle, #000 62%, transparent 72%); mask-image: radial-gradient(circle, #000 62%, transparent 72%); }
+    #bar { width: min(56%, 240px); height: 8px; border-radius: 4px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+    #fill { width: 0; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #ffc43d, #ff8c42, #f45078); transition: width .2s ease; }
+    #note { color: #9aa0bd; font-size: 13px; letter-spacing: .04em; }
+    #error { display: none; max-width: 300px; color: #fbf5e8; text-align: center; font-size: 15px; line-height: 1.5; padding: 0 16px; }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div id="loading">
+      <img src="funday-morning.jpg" alt="Funday Morning Games">
+      <div id="bar"><div id="fill"></div></div>
+      <div id="note">Yükleniyor…</div>
+      <div id="error"></div>
+    </div>
+  </div>
+  <script>
+    var canvas = document.querySelector("#unity-canvas");
+    var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (mobile) document.body.classList.add("mobile");
+
+    var buildUrl = "Build";
+    var config = {
+      arguments: [],
+      dataUrl: buildUrl + "/WebGL.data.unityweb",
+      frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb",
+      codeUrl: buildUrl + "/WebGL.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Funday Morning",
+      productName: "Wagooon!",
+      productVersion: "0.1.0",
+      // Telefonlarda çözünürlük 2x ile sınırlı: pil ve ısınma için.
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      showBanner: function (msg, type) { if (type === "error") showError(msg); },
+    };
+
+    function showError(msg) {
+      var e = document.querySelector("#error");
+      e.textContent = "Oyun açılamadı: " + msg;
+      e.style.display = "block";
+      document.querySelector("#bar").style.display = "none";
+      document.querySelector("#note").style.display = "none";
+    }
+
+    var script = document.createElement("script");
+    script.src = buildUrl + "/WebGL.loader.js";
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (p) {
+        document.querySelector("#fill").style.width = Math.round(p * 100) + "%";
+      }).then(function () {
+        var l = document.querySelector("#loading");
+        l.style.opacity = "0";
+        setTimeout(function () { l.remove(); }, 500);
+        canvas.focus();
+      }).catch(showError);
+    };
+    script.onerror = function () { showError("dosyalar yüklenemedi."); };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
