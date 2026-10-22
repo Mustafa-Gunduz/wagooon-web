@@ -1,0 +1,41 @@
+{
+ "surum": 1,
+ "kampanyalar": [
+  {
+   "id": "tesekkur",
+   "aktif": true,
+   "agirlik": 2,
+   "baslangic": "",
+   "bitis": "",
+   "platformlar": [],
+   "gorsel": "yerlesik:tesekkur",
+   "baslik": [],
+   "metin": [],
+   "baglanti_ios": "",
+   "baglanti_android": "",
+   "baglanti_web": "",
+   "dugme": "oyna"
+  },
+  {
+   "id": "color-clicker-idle",
+   "aktif": false,
+   "agirlik": 1,
+   "baslangic": "",
+   "bitis": "",
+   "platformlar": ["ios", "android"],
+   "gorsel": "img/color-clicker-idle.png",
+   "baslik": [
+    {"dil": "tr", "metin": "Color Clicker Idle"},
+    {"dil": "en", "metin": "Color Clicker Idle"}
+   ],
+   "metin": [
+    {"dil": "tr", "metin": "Funday Morning'in diğer oyunu. Hemen dene!"},
+    {"dil": "en", "metin": "Another game by Funday Morning. Give it a try!"}
+   ],
+   "baglanti_ios": "",
+   "baglanti_android": "",
+   "baglanti_web": "",
+   "dugme": "oyna"
+  }
+ ]
+}
