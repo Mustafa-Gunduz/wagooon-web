@@ -5,3 +5,5 @@ Bu depoda yalnızca derlenmiş web dosyaları ile gizlilik (privacy.html) ve des
 
 `ads/campaigns.json`: oyundaki tanıtım kampanyaları. Bu sayfadan düzenlenebilir; oyun birkaç saat içinde yeni listeyi alır.
 Alanların açıklaması kaynak depoda: unity/tools/ads/BENIOKU.md
+
+`events/calendar.json`: etkinlik takvimi düzeltmeleri (bir haftayı başka temaya çevirme ya da kapatma). Açıklama: unity/tools/events/BENIOKU.md
